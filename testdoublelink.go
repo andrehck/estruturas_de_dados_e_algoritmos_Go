@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Node struct {
 	data string
@@ -27,16 +29,26 @@ func initial() {
 	tail.next = nil
 
 	nodeBerkeley.next = tail
-
 }
 
-func add(data string) {
+func insert(inserPosition int, data string) {
+	var p = head
+	var i = 0
+
+	for {
+		if p.next == nil || i >= inserPosition-1 {
+			break
+		}
+		p = p.next
+		i++
+	}
+
 	var newNode *Node = new(Node)
 	newNode.data = data
-	newNode.next = nil
-	tail.next = newNode
-	newNode.prev = tail
-	tail = newNode
+	newNode.next = p.next
+	p.next = newNode
+	newNode.prev = p
+	newNode.next.prev = newNode
 }
 
 func output(node *Node) {
@@ -51,13 +63,16 @@ func output(node *Node) {
 		end = p
 		p = p.next
 	}
+
 	fmt.Printf("End\n")
 
 	p = end
+
 	for {
 		if p == nil {
 			break
 		}
+
 		fmt.Printf("%s ->", p.data)
 		p = p.prev
 	}
@@ -67,8 +82,8 @@ func output(node *Node) {
 func main() {
 	initial()
 
-	fmt.Printf("Add a new node Walnut: \n")
-	add("Walnut")
+	fmt.Printf("Insert a new node Walnut at index 2 : \n")
+	insert(2, "Walnut")
 
 	output(head)
 }
