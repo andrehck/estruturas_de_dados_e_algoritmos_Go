@@ -1,4 +1,4 @@
-package selectsort
+package main
 
 import (
 	"fmt"
